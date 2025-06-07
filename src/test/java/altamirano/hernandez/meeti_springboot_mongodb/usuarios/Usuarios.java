@@ -20,7 +20,7 @@ public class Usuarios {
 
     @Test
     void notFindUsuarioByUsername() {
-        Optional<Usuario> usuarioBusqueda = iUsuarioRepository.findByUsername("cholo.fake");
+        Optional<Usuario> usuarioBusqueda = iUsuarioRepository.findByUsername("cholofake");
         assertNull(usuarioBusqueda, "Hay un usuario regisrado con ese username");
     }
 

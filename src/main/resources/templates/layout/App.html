@@ -13,16 +13,30 @@
     <title>LayOut Pagina</title>
 </head>
 <body>
-<!--    <header>-->
-<!--        Header de mi Aplicacion-->
-<!--    </header>-->
+<header class="mt-10 p-6">
+    <div class="flex items-center justify-between w-full">
+        <div class="flex items-center space-x-6">
+            <img src="/images/logo.png" alt="Logo" style="width: 40%" class="w-10 h-10 object-contain">
+            <h1 class="font-bold text-2xl px-4 text-pink-500">Únete a Grupos y Asiste a Eventos</h1>
+        </div>
+        <div class="flex space-x-4">
+            <a class="border p-3 bg-pink-400 rounded text-white hover:bg-white hover:text-pink-400 hover:border-pink-400" href="/iniciar-sesion">
+                Iniciar Sesión
+            </a>
+            <a class="border p-3 bg-pink-400 rounded text-white hover:bg-white hover:text-pink-400 hover:border-pink-400" href="/olvide-password">
+                Olvidé Password
+            </a>
+        </div>
+    </div>
+</header>
 
-    <main layout:fragment="contenido">
+
+<main layout:fragment="contenido">
 
     </main>
 
-    <footer>
-        <p>&copy; 2025 Meeti</p>
+    <footer class="text-2xl text-center" style="margin-top: 25px; margin-bottom: 25px">
+        <p>&copy; 2025 Meeti - Altamirano Hernandez Alan</p>
     </footer>
 
     <div layout:fragment="scripts">
