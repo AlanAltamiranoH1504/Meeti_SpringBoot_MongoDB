@@ -1,0 +1,24 @@
+{
+  "name": "meeti_springboot_mongodb",
+  "version": "1.0.0",
+  "description": "Meeti desarrollado con Spring Boot y MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlanAltamiranoH1504/Meeti_SpringBoot_MongoDB.git"
+  },
+  "author": "Alan Altamirano Hernandez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlanAltamiranoH1504/Meeti_SpringBoot_MongoDB/issues"
+  },
+  "homepage": "https://github.com/AlanAltamiranoH1504/Meeti_SpringBoot_MongoDB#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^3.4.17"
+  }
+}
