@@ -59,29 +59,23 @@ public class RegisterController {
         }
     }
 
-    @PostMapping("/confirmar-cuenta")
-    public ResponseEntity<?> confirmarCuenta(@Valid @RequestBody Token token, BindingResult bindingResult) {
+    @PostMapping("/confirmar-cuenta/{token}")
+    public ResponseEntity<?> confirmarCuenta(@PathVariable String token) {
         Map<String, Object> json = new HashMap<>();
-
-        if (bindingResult.hasErrors()) {
-            Map<String, Object> errores = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error -> {
-                errores.put(error.getField(), error.getDefaultMessage());
-            });
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+        Optional<Usuario> usuarioConToken = iUsuarioService.findByToken(token);
+        if (!usuarioConToken.isPresent()) {
+            json.put("msg", "Usuario no encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
         } else {
-            Optional<Usuario> usuarioConToken = iUsuarioService.findByToken(token.getToken());
-            if (!usuarioConToken.isPresent()) {
-                json.put("msg", "Usuario no encontrado.");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
-            } else {
-                usuarioConToken.get().setToken(null);
-                usuarioConToken.get().setConfirmado(true);
-                iUsuarioService.save(usuarioConToken.get());
-                json.put("msg", "Usuario confirmado correctamente!");
+            usuarioConToken.get().setToken("");
+            usuarioConToken.get().setConfirmado(true);
+            iUsuarioService.save(usuarioConToken.get());
+            String nombreCompleto = usuarioConToken.get().getNombre() + " " + usuarioConToken.get().getApellidos();
 
-                return ResponseEntity.status(200).body(json);
-            }
+            emails.emailCuentaConfirmada(usuarioConToken.get().getEmail(), "Cuenta Confirmada Correctamente", nombreCompleto);
+            json.put("msg", "Usuario confirmado correctamente!");
+
+            return ResponseEntity.status(200).body(json);
         }
     }
 }
