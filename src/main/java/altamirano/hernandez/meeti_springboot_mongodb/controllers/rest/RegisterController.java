@@ -1,6 +1,8 @@
 package altamirano.hernandez.meeti_springboot_mongodb.controllers.rest;
 
 import altamirano.hernandez.meeti_springboot_mongodb.models.Usuario;
+import altamirano.hernandez.meeti_springboot_mongodb.models.dto.Token;
+import altamirano.hernandez.meeti_springboot_mongodb.services.emails.EnvioEmails;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IUsuarioService;
 import altamirano.hernandez.meeti_springboot_mongodb.utils.TokensString;
 import jakarta.validation.Valid;
@@ -8,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +21,8 @@ import java.util.Optional;
 public class RegisterController {
     @Autowired
     private IUsuarioService iUsuarioService;
+    @Autowired
+    private EnvioEmails emails;
 
     @PostMapping("/crear-cuenta")
     public ResponseEntity<?> crearCuenta(@Valid @RequestBody Usuario usuario, BindingResult bindingResult) {
@@ -34,24 +35,52 @@ public class RegisterController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
         } else {
             try {
-                Optional <Usuario> usuarioUserName = iUsuarioService.findByUsername(usuario.getUsername());
+                Optional<Usuario> usuarioUserName = iUsuarioService.findByUsername(usuario.getUsername());
                 if (usuarioUserName.isPresent()) {
                     json.put("msg", "Username ya registrado.");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
                 }
 
                 Optional<Usuario> usarioEmail = iUsuarioService.findByEmail(usuario.getEmail());
-                if (usarioEmail.isPresent()){
+                if (usarioEmail.isPresent()) {
                     json.put("msg", "Email ya registrado.");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
                 }
 
                 usuario.setToken(TokensString.tokenString());
                 iUsuarioService.save(usuario);
+                String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
+                emails.emailConfirmacionCuenta(usuario.getEmail(), "Confirmacion de Cuenta", nombreCompleto, usuario.getToken());
                 json.put("msg", "Usuario creado correctamente!");
                 return ResponseEntity.status(HttpStatus.CREATED).body(json);
             } catch (RuntimeException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            }
+        }
+    }
+
+    @PostMapping("/confirmar-cuenta")
+    public ResponseEntity<?> confirmarCuenta(@Valid @RequestBody Token token, BindingResult bindingResult) {
+        Map<String, Object> json = new HashMap<>();
+
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> errores = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                errores.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+        } else {
+            Optional<Usuario> usuarioConToken = iUsuarioService.findByToken(token.getToken());
+            if (!usuarioConToken.isPresent()) {
+                json.put("msg", "Usuario no encontrado.");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            } else {
+                usuarioConToken.get().setToken(null);
+                usuarioConToken.get().setConfirmado(true);
+                iUsuarioService.save(usuarioConToken.get());
+                json.put("msg", "Usuario confirmado correctamente!");
+
+                return ResponseEntity.status(200).body(json);
             }
         }
     }

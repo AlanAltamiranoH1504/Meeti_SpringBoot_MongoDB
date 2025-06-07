@@ -13,4 +13,7 @@ public interface IUsuarioRepository extends MongoRepository<Usuario, String> {
 
     @Query("{'username': ?0}")
     public Optional<Usuario> findByUsername(String username);
+
+    @Query("{'token':  ?0}")
+    public Optional<Usuario> findByToken(String token);
 }

@@ -10,4 +10,9 @@ public class RegisterControllerViews {
     public String crearCuenta() {
         return "/usuarios/formRegistroUsuarios";
     }
+
+    @GetMapping("/confirmar-cuenta/{token}")
+    public String confirmarCuenta() {
+        return "/usuarios/confirmarCuenta";
+    }
 }

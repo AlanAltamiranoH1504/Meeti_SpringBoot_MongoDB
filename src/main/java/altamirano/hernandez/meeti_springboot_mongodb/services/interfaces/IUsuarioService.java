@@ -11,6 +11,7 @@ public interface IUsuarioService {
     public abstract Usuario findById(String id);
     public abstract Optional<Usuario> findByUsername(String username);
     public abstract Optional<Usuario> findByEmail(String email);
+    public abstract Optional<Usuario> findByToken(String token);
     public abstract void save(Usuario usuario);
     public abstract void deleteById(String id);
 }

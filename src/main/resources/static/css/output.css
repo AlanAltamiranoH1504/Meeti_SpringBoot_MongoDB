@@ -761,6 +761,31 @@ video {
   color: rgb(244 114 182 / var(--tw-text-opacity, 1));
 }
 
+nav.nav a {
+  padding: 1rem;
+  display: inline-block;
+}
+nav.nav a:first-child {
+  color: #B8336A;
+  font-weight: 700;
+  border-right: 1px solid #E6E6E6;
+}
+
+.site-footer {
+  padding: 1rem 0 2rem 0;
+  text-align: center;
+}
+.site-footer p {
+  margin: 0;
+}
+@media (min-width:768px) {
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
 @media (min-width: 768px) {
   .md\:mb-0 {
     margin-bottom: 0px;

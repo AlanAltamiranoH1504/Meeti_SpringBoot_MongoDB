@@ -62,6 +62,19 @@ public class ImplUsuarioService implements IUsuarioService {
     }
 
     @Override
+    public Optional<Usuario> findByToken(String token) {
+        try {
+            Optional<Usuario> usuario = iUsuarioRepository.findByToken(token);
+            if (usuario.isPresent()) {
+                return usuario;
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+        return Optional.empty();
+    }
+
+    @Override
     public void save(Usuario usuario) {
         try {
             iUsuarioRepository.save(usuario);

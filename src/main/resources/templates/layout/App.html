@@ -10,22 +10,22 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet">
     <title>LayOut Pagina</title>
 </head>
 <body>
 <header class="mt-10 p-6">
     <div class="flex items-center justify-between w-full">
         <div class="flex items-center space-x-6">
-            <img src="/images/logo.png" alt="Logo" style="width: 40%" class="w-10 h-10 object-contain">
+            <img src="/images/logo.png" alt="Logo" class="w-10 h-10 object-contain">
             <h1 class="font-bold text-2xl px-4 text-pink-500">Únete a Grupos y Asiste a Eventos</h1>
         </div>
         <div class="flex space-x-4">
-            <a class="border p-3 bg-pink-400 rounded text-white hover:bg-white hover:text-pink-400 hover:border-pink-400" href="/iniciar-sesion">
-                Iniciar Sesión
-            </a>
-            <a class="border p-3 bg-pink-400 rounded text-white hover:bg-white hover:text-pink-400 hover:border-pink-400" href="/olvide-password">
-                Olvidé Password
-            </a>
+            <nav class="nav">
+                <a class="text-pink-400" href="#">Crear Grupo</a>
+                <a class="text-pink-400 " href="#">Iniciar Sesión</a>
+                <a class="text-pink-400  " href="#">Olvidé Password</a>
+            </nav>
         </div>
     </div>
 </header>
@@ -35,8 +35,13 @@
 
     </main>
 
-    <footer class="text-2xl text-center" style="margin-top: 25px; margin-bottom: 25px">
-        <p>&copy; 2025 Meeti - Altamirano Hernandez Alan</p>
+    <footer class="text-xl text-center site-footer" style="">
+        <nav class="nav">
+            <a class="text-pink-400" href="#">Crear Grupo</a>
+            <a class="text-pink-400 " href="#">Iniciar Sesión</a>
+            <a class="text-pink-400  " href="#">Olvidé Password</a>
+            <a>&copy; 2025 Meeti - Altamirano Hernandez Alan</a>
+        </nav>
     </footer>
 
     <div layout:fragment="scripts">
