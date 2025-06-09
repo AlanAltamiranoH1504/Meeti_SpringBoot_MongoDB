@@ -2,7 +2,6 @@ package altamirano.hernandez.meeti_springboot_mongodb.controllers.rest;
 
 import altamirano.hernandez.meeti_springboot_mongodb.models.Rol;
 import altamirano.hernandez.meeti_springboot_mongodb.models.Usuario;
-import altamirano.hernandez.meeti_springboot_mongodb.models.dto.Token;
 import altamirano.hernandez.meeti_springboot_mongodb.services.emails.EnvioEmails;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IRolService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IUsuarioService;
@@ -11,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +23,8 @@ public class RegisterController {
     private IUsuarioService iUsuarioService;
     @Autowired
     private IRolService iRolService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Autowired
     private EnvioEmails emails;
 
@@ -59,6 +61,7 @@ public class RegisterController {
 
                 //Guardado del usuario
                 usuario.setToken(TokensString.tokenString());
+                usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
                 iUsuarioService.save(usuario);
 
                 //Envio de email y respuesta json

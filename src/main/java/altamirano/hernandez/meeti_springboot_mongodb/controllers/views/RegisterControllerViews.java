@@ -18,4 +18,9 @@ public class RegisterControllerViews {
         model.addAttribute("token", token);
         return "/usuarios/confirmarCuenta";
     }
+
+    @GetMapping("/iniciar-sesion")
+    public String iniciarSesion() {
+        return "/usuarios/formIniciarSesion";
+    }
 }

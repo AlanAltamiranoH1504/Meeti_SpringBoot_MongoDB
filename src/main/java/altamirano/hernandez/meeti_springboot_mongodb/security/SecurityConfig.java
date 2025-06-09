@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -33,6 +35,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new HttpSessionSecurityContextRepository();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
@@ -42,6 +49,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/confirmar-cuenta/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register/crear-cuenta").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register/confirmar-cuenta/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/iniciar-sesion/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+
+
+                        //Rutas que requieren proteccion
+                        .requestMatchers(HttpMethod.GET, "/home/**").hasRole("USER")
 
                         //Liberacion archivos estaticos
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
@@ -49,7 +62,10 @@ public class SecurityConfig {
                         //Configuracion general
                         .anyRequest().authenticated()
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/iniciar-sesion")
+                        .permitAll()
+                )
                 .logout(Customizer.withDefaults());
         return http.build();
     }
