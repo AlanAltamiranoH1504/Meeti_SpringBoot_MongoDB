@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface IUsuarioRepository extends MongoRepository<Usuario, String> {
 
-    @Query("{'email': ?0}")
+    @Query("{'email': ?0, 'confirmado': true}")
     public Optional<Usuario> findByEmail(String email);
 
     @Query("{'username': ?0}")

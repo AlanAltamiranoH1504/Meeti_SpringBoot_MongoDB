@@ -23,6 +23,7 @@
 
                 <form id="formularioRegistroCuenta">
                     <!--Aqui debe ir el CSRF Token-->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:id="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="mb-5">
                         <label for="nombre" class="mb-2 block uppercase text-pink-400 font-semibold">Nombre: </label>
                         <input type="text" id="nombre" name="nombre" class="border p-3 w-full rounded-lg" placeholder="Ingresa tu nombre">

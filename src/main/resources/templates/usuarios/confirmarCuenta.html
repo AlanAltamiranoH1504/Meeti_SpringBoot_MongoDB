@@ -15,6 +15,9 @@
 <body>
 <section layout:fragment="contenido">
     <div class="md:flex md:items-center md:justify-center min-h-screen px-4 gap-8">
+        <form>
+            <input type="hidden" th:id="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </form>
         <div class="md:w-1/2 flex justify-center items-center mb-6 md:mb-0">
             <img src="/images/convivencia.png" class="rounded-lg shadow-sm" alt="Logo Meeti">
         </div>

@@ -32,7 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function peticionSaveNuevaCuenta(requestBody){
         try {
-            const response = await axios.post("register/crear-cuenta", requestBody);
+            const token = document.querySelector("#_csrf").value;
+            const response = await axios.post("register/crear-cuenta", requestBody, {
+                headers: {
+                    "X-CSRF-TOKEN": token
+                }
+            });
             if (response.status === 201){
                 Swal.fire({
                     title: "¡Usuario Registrado!",
@@ -46,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             }
         }catch (e) {
+            console.log(e.message);
             Swal.fire({
                 title: "¡Error en registro de Usuario!",
                 text: e.response.data.msg,

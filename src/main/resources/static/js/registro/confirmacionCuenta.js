@@ -5,7 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const path = window.location.pathname;
             const pathParths = path.split("/");
             const token = pathParths[2];
-            const response = await axios.post(`/register/confirmar-cuenta/${token}`);
+            const csrfToken = document.querySelector("#_csrf").value;
+
+            const response = await axios.post(`/register/confirmar-cuenta/${token}`, {}, {
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken
+                }
+            });
             if (response.status === 200) {
                 Swal.fire({
                     title: "Cuenta Confirmada",
