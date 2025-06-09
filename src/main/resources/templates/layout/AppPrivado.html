@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/output.css">
+    <link rel="stylesheet">
+    <title>LayOut Area Privada</title>
+</head>
+<body>
+    <header class="mt-10 p-6">
+        <div class="flex items-center justify-between w-full">
+            <div class="flex items-center space-x-6 align-middle">
+                <img src="/images/logo.png" alt="logo meeti" class="w-10 h-10 object-contain">
+                <h1 class="font-bold text-pink-400 text-2xl p-4">Crea y Únete a Grupos para Conocer Eventos</h1>
+            </div>
+            <div class="flex space-x-4">
+                <nav class="nav">
+                    <a href="#" class="text-pink-400">Crear Grupo</a>
+                    <a href="#" class="text-pink-400">Administración</a>
+                    <button form="formCerrrrSesion" class="text-pink-400 font-bold border p-3 rounded-lg bg-pink-400 text-white hover:bg-white hover:text-pink-400 hover:border-pink-400">Cerrar Sesion</button>
+                    <form method="post" action="/logout" id="formCerrrrSesion">
+                        <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
+                    </form>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div layout:fragment="titulo" class="text-center text-2xl font-bold">
+
+    </div>
+
+    <main layout:fragment="contenido">
+
+    </main>
+
+    <footer class="text-xl text-center site-footer" style="">
+        <nav class="nav">
+            <a href="#" class="text-pink-400">Crear Grupo</a>
+            <a href="#" class="text-pink-400">Administración</a>
+            <button form="formCerrrrSesion" class="text-pink-400 font-bold border p-3 rounded-lg bg-pink-400 text-white hover:bg-white hover:text-pink-400 hover:border-pink-400">Cerrar Sesion</button>
+            <form method="post" action="/logout" id="formCerrrrSesion">
+                <input type="hidden" th:name="_csrf" th:value="${_csrf.token}">
+            </form>
+        </nav>
+    </footer>
+
+    <div layout:fragment="scripts">
+
+    </div>
+    <!--Link de Axios-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--Link de Sweet Alert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
