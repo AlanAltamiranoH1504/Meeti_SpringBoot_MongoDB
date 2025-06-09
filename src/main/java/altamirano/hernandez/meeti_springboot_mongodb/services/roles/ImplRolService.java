@@ -39,6 +39,16 @@ public class ImplRolService implements IRolService {
     }
 
     @Override
+    public Rol findRolByNombre(String nombre) {
+        try {
+            Rol rolDefault = iRolRepository.findByName(nombre);
+            return rolDefault;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public void save(Rol rol) {
         try {
             iRolRepository.save(rol);

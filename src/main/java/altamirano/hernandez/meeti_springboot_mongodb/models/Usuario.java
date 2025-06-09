@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "usuarios")
@@ -35,6 +37,9 @@ public class Usuario {
     private String token;
     private boolean confirmado;
 
+    //Muchos roles para un usuario
+    List<Rol> roles = new ArrayList<>();
+
     //Constructores
     public Usuario() {
     }
@@ -47,7 +52,7 @@ public class Usuario {
         this.password = password;
     }
 
-    public Usuario(String nombre, String apellidos, String username, String email, String password, String token, boolean confirmado) {
+    public Usuario(String nombre, String apellidos, String username, String email, String password, String token, boolean confirmado, List<Rol> roles) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.username = username;
@@ -55,6 +60,7 @@ public class Usuario {
         this.password = password;
         this.token = token;
         this.confirmado = confirmado;
+        this.roles = roles;
     }
 
     //G y S
@@ -122,16 +128,24 @@ public class Usuario {
         this.confirmado = confirmado;
     }
 
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
     //E y H
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Usuario usuario = (Usuario) o;
-        return confirmado == usuario.confirmado && Objects.equals(id, usuario.id) && Objects.equals(nombre, usuario.nombre) && Objects.equals(apellidos, usuario.apellidos) && Objects.equals(username, usuario.username) && Objects.equals(email, usuario.email) && Objects.equals(password, usuario.password) && Objects.equals(token, usuario.token);
+        return confirmado == usuario.confirmado && Objects.equals(id, usuario.id) && Objects.equals(nombre, usuario.nombre) && Objects.equals(apellidos, usuario.apellidos) && Objects.equals(username, usuario.username) && Objects.equals(email, usuario.email) && Objects.equals(password, usuario.password) && Objects.equals(token, usuario.token) && Objects.equals(roles, usuario.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellidos, username, email, password, token, confirmado);
+        return Objects.hash(id, nombre, apellidos, username, email, password, token, confirmado, roles);
     }
 }

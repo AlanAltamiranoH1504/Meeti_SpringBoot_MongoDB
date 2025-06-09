@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface IRolService {
     public abstract List<Rol> findAll();
     public abstract Optional<Rol> findById(String id);
+    public abstract Rol findRolByNombre(String nombre);
     public abstract void save(Rol rol);
     public abstract void deleteById(String id);
 }

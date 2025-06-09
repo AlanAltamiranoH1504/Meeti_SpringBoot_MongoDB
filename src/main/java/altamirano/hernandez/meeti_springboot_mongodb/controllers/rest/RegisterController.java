@@ -1,8 +1,10 @@
 package altamirano.hernandez.meeti_springboot_mongodb.controllers.rest;
 
+import altamirano.hernandez.meeti_springboot_mongodb.models.Rol;
 import altamirano.hernandez.meeti_springboot_mongodb.models.Usuario;
 import altamirano.hernandez.meeti_springboot_mongodb.models.dto.Token;
 import altamirano.hernandez.meeti_springboot_mongodb.services.emails.EnvioEmails;
+import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IRolService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IUsuarioService;
 import altamirano.hernandez.meeti_springboot_mongodb.utils.TokensString;
 import jakarta.validation.Valid;
@@ -12,15 +14,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
     @Autowired
     private IUsuarioService iUsuarioService;
+    @Autowired
+    private IRolService iRolService;
     @Autowired
     private EnvioEmails emails;
 
@@ -47,8 +49,19 @@ public class RegisterController {
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
                 }
 
+                //Seteo de rol por default
+                Rol rolDefault = iRolService.findRolByNombre("USER");
+                if (rolDefault != null) {
+                    List<Rol> rolesDelUsuario = new ArrayList<>();
+                    rolesDelUsuario.add(rolDefault);
+                    usuario.setRoles(rolesDelUsuario);
+                }
+
+                //Guardado del usuario
                 usuario.setToken(TokensString.tokenString());
                 iUsuarioService.save(usuario);
+
+                //Envio de email y respuesta json
                 String nombreCompleto = usuario.getNombre() + " " + usuario.getApellidos();
                 emails.emailConfirmacionCuenta(usuario.getEmail(), "Confirmacion de Cuenta", nombreCompleto, usuario.getToken());
                 json.put("msg", "Usuario creado correctamente!");
