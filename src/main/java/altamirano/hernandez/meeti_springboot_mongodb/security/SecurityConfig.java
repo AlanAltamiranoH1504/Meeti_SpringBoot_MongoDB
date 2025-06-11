@@ -43,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+//                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //Rutas que no requieren proteccion
                         .requestMatchers(HttpMethod.GET, "/crear-cuenta").permitAll()
@@ -62,6 +62,8 @@ public class SecurityConfig {
                         //Rutas que requieren proteccion
                         .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/grupos-views/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/grupos/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.POST, "/grupos/**").hasRole("USER")
 
                         //Liberacion archivos estaticos
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
