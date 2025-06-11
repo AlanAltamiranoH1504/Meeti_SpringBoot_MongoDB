@@ -52,9 +52,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/iniciar-sesion/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
 
-
                         //Rutas que requieren proteccion
-                        .requestMatchers(HttpMethod.GET, "/home/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/grupos-views/**").hasRole("USER")
 
                         //Liberacion archivos estaticos
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()

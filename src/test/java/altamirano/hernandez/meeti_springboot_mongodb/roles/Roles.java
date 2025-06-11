@@ -38,6 +38,8 @@ public class Roles {
         assertThat(usuario.isPresent());
 
         List<Rol> rolesDelUsuarioObjetos = usuario.get().getRoles();
+        assertTrue(rolesDelUsuarioObjetos.size() > 0, "El usuario no tiene roles asignados");
+
         List<String> rolesString = new ArrayList<>();
         for (var rol: rolesDelUsuarioObjetos){
             rolesString.add(rol.getNombre());
@@ -46,5 +48,7 @@ public class Roles {
         for (var roleString: rolesString){
             System.out.println("roleString = " + roleString);
         }
+
+        assertTrue(rolesString.size() > 0, "No se guardaron correctamente los errores en String");
     }
 }

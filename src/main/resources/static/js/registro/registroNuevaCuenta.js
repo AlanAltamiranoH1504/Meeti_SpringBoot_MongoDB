@@ -51,13 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             }
         }catch (e) {
-            console.log(e.message);
             Swal.fire({
                 title: "¡Error en registro de Usuario!",
-                text: e.response.data.msg,
+                text: "Consulta los errores.",
                 icon: "error",
                 timer: 3000
             });
+            mostrarAlertas(e.response.data);
         }
+    }
+
+    function mostrarAlertas(errores){
+        const erroresArray = Object.values(errores);
+        const divErrores = document.querySelector("#divErrores");
+
+        erroresArray.forEach((error) => {
+            const parrafoError = document.createElement("p");
+            parrafoError.textContent = error;
+            parrafoError.classList.add("border", "rounded-lg", "bg-red-500", "p-2", "text-center", "font-bold");
+
+            divErrores.appendChild(parrafoError);
+        });
+
+        setTimeout(() => {
+            divErrores.innerHTML = "";
+        }, 5000);
     }
 })
