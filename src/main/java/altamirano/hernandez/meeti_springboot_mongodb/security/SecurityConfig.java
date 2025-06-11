@@ -43,6 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //Rutas que no requieren proteccion
                         .requestMatchers(HttpMethod.GET, "/crear-cuenta").permitAll()
@@ -51,6 +52,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/register/confirmar-cuenta/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/iniciar-sesion/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
+
+                        //Estas se van a modificar para area de amdinistracion
+                        .requestMatchers(HttpMethod.GET, "/categorias/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/categorias/**").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/categorias/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/categorias/**").permitAll()
 
                         //Rutas que requieren proteccion
                         .requestMatchers(HttpMethod.GET, "/").hasRole("USER")
