@@ -64,6 +64,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/grupos-views/**").hasRole("USER")
                         .requestMatchers(HttpMethod.GET, "/grupos/**").hasRole("USER")
                         .requestMatchers(HttpMethod.POST, "/grupos/**").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/administracion/**").hasRole("USER")
 
                         //Liberacion archivos estaticos
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()

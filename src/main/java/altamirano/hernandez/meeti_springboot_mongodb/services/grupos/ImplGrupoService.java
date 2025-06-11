@@ -35,6 +35,16 @@ public class ImplGrupoService implements IGrupoService {
     }
 
     @Override
+    public List<Grupo> findByUserId(String userId) {
+        try {
+            List<Grupo> gruposByUserId = iGrupoRepository.findByUserId(userId);
+            return gruposByUserId;
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public Grupo save(Grupo grupo) {
         try {
             Grupo grupoSaved = iGrupoRepository.save(grupo);
