@@ -66,4 +66,55 @@ public class GrupoController {
             }
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable String id, @CookieValue("usuario_id") String usuarioId) {
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Optional<Grupo> grupo = iGrupoService.findById(id);
+            if (grupo.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(grupo.get());
+            } else {
+                json.put("msg", "Grupo no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            }
+        } catch (RuntimeException e) {
+            json.put("msg", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(json);
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody altamirano.hernandez.meeti_springboot_mongodb.models.dto.Grupo grupo, @CookieValue("usuario_id") String usuarioID, BindingResult bindingResult, @PathVariable String id) {
+        Map<String, Object> json = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> errores = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                errores.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
+        } else {
+            try {
+                Optional<Grupo> grupoPorActualizar = iGrupoService.findById(id);
+                if (grupoPorActualizar.isPresent()) {
+                    var group = grupoPorActualizar.get();
+                    group.setNombre(grupo.getNombre());
+                    group.setDescripcion(grupo.getDescripcion());
+                    group.setImagen(grupo.getImagen());
+                    group.setSitioWeb(grupo.getSitioWeb());
+                    group.setCategoria(grupo.getCategoria());
+
+                    Grupo savedGrupo = iGrupoService.save(group);
+                    json.put("msg", "Grupo actualizado exitosamente");
+                    return ResponseEntity.status(HttpStatus.OK).body(json);
+                } else {
+                    json.put("msg", "Grupo no encontrado");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+                }
+            } catch (RuntimeException e) {
+                json.put("msg", e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(json);
+            }
+        }
+    }
 }

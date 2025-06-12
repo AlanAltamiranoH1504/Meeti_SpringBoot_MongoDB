@@ -1,28 +1,24 @@
 <!DOCTYPE html>
-<html
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout/AppPrivado}"
-        lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/AppPrivado}"
+>
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8">}
     <link rel="stylesheet" href="/css/app.css">
     <!--Trix-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.css">
-    <title>Meeti - Nuevo Grupo</title>
+    <title>Meeti - Editar Grupo</title>
 </head>
 <body>
-
     <section layout:fragment="contenido">
-        <h2 class="font-bold mb-6">Nuevo Grupo</h2>
+        <h2 class="font-bold mb-6">Editar Grupo</h2>
         <div class="md:flex md:items-center md:justify-center px-4">
             <div class="md:w-1 bg-white p-6 rounded-lg shadow-sm border w-full max-w-xl">
-                <h3 class="text-center font-bold">Crea tu Nuevo Grupo</h3>
+                <h3 class="text-center font-bold"></h3>
 
-                <form id="formNuevoGrupo" enctype="multipart/form-data">
-
-                    <div id="alertasErrores" class="my-4"></div>
-
+                <form id="formEditarGrupo" enctype="multipart/form-data">
                     <input type="hidden" th:id="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="mb-5 mt-5">
                         <label class="mb-3 uppercase font-semibold text-gray-600" for="nombre">Nombre: </label>
@@ -53,7 +49,7 @@
                     </div>
 
                     <div class="mb-5">
-                        <input type="submit" class="border border-pink-400 p-4 w-full font-semibold text-xl bg-pink-400  text-white rounded-lg hover:bg-white hover:text-pink-400 hover:border-pink-500" value="Guardar Grupo">
+                        <input type="submit" class="border border-pink-400 p-4 w-full font-semibold text-xl bg-pink-400  text-white rounded-lg hover:border-pink-500 hover:bg-white hover:text-pink-400 " value="Actualizar Grupo">
                     </div>
                 </form>
             </div>
@@ -63,7 +59,7 @@
     <section layout:fragment="scripts">
         <!--Trix-->
         <script src="https://cdn.jsdelivr.net/npm/trix@2.0.0/dist/trix.umd.min.js"></script>
-        <script src="/js/grupos/nuevoGrupo.js" type="module"></script>
+        <script src="/js/grupos/edicionGrupo.js" type="module"></script>
     </section>
 </body>
 </html>
