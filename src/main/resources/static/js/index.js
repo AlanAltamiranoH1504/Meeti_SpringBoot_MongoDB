@@ -64,6 +64,21 @@ export async function peticionesPUTWithID(request, endPoint, csrfToken) {
     }
 }
 
+export async function peticionesDELETEWithID(endPoint, csrfToken) {
+    try {
+        const response = await axios.delete(endPoint, {
+            headers: {
+                "X-CSRF-TOKEN": csrfToken
+            }
+        });
+        if (response.status === 200) {
+            return response;
+        }
+    }catch (e) {
+        return e.response;
+    }
+}
+
 export function mostrarAlertas(informacion, lugar) {
     const divSeccion = document.querySelector(`#${lugar}`);
     informacion.forEach((error) => {

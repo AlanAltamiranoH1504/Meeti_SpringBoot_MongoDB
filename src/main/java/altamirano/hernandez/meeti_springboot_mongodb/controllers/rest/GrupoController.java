@@ -117,4 +117,21 @@ public class GrupoController {
             }
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Optional<Grupo> grupoPorEliminar = iGrupoService.findById(id);
+            if (!grupoPorEliminar.isPresent()) {
+                json.put("msg", "Grupo no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
+            }
+            iGrupoService.deleteById(id);
+            json.put("msg", "Grupo eliminado exitosamente");
+            return ResponseEntity.status(HttpStatus.OK).body(json);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

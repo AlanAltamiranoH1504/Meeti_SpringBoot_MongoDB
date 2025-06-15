@@ -85,6 +85,7 @@
 
             <div class="seccion-admin">
                 <h2 class="font-bold text-center">Tus Grupos</h2>
+                <input type="hidden" th:value="${_csrf.token}" th:id="${_csrf.parameterName}">
                 <ul id="listGrupos">
                     <div id="noGrupos" class="hidden text-center my-3 font-semibold text-xl ">No tienes grupos existentes</div>
                 </ul>
@@ -93,7 +94,7 @@
     </section>
 
     <section layout:fragment="scripts">
-        <script src="/js/administracion/home.js"></script>
+        <script src="/js/administracion/home.js" type="module"></script>
     </section>
 
 </body>
