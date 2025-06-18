@@ -180,6 +180,8 @@ public class GrupoController {
                 json.put("msg", "Grupo no encontrado");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
             }
+            String carpetaDestino = Paths.get("static/uploads").toAbsolutePath().toString();
+            Files.deleteIfExists(Paths.get(carpetaDestino + File.separator + grupoPorEliminar.get().getImagen()));
             iGrupoService.deleteById(id);
             json.put("msg", "Grupo eliminado exitosamente");
             return ResponseEntity.status(HttpStatus.OK).body(json);

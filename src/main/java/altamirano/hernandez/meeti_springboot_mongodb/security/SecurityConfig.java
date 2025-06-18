@@ -69,7 +69,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/administracion/**").hasRole("USER")
 
                         //Liberacion archivos estaticos
-                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static    /**").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/static/**").permitAll()
 
                         //Configuracion general
                         .anyRequest().authenticated()
