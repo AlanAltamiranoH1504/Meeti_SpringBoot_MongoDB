@@ -10,7 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderGrupos(response.data);
             }
         } catch (e) {
-            console.log(e.message);
+            if (e.response.status === 404) {
+                Swal.fire({
+                    title: "No tienes grupos creados.",
+                    text: "Crea un grupo para generar un nuevo Meeti",
+                    icon: "warning",
+                    textConfirmButton: "Crear Grupo"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/grupos-views/nuevo-grupo"
+                    }
+                })
+            }
         }
     }
 
