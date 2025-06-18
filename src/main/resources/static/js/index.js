@@ -38,6 +38,36 @@ export async function peticionesPOST(request, endPoint, csrfToken) {
     }
 }
 
+export function peticionesPUTImagens(request, endPoint, csrfToken){
+    let estado;
+    fetch(endPoint, {
+        method: "PUT",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken
+        },
+        body: request
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        estado = data;
+    }).catch((error) => {
+        return error;
+    })
+
+    return estado;
+}
+
+export async function peticionesGETWithID(endPoint) {
+    try {
+        const response = await axios.get(endPoint);
+        if (response.status === 200) {
+            return response.data;
+        }
+    }catch (e) {
+        return e.response;
+    }
+}
+
 export async function peticionesGETNotID(endPoint) {
     try {
         const response = await axios.get(endPoint);
@@ -92,3 +122,5 @@ export function mostrarAlertas(informacion, lugar) {
         }, 5000)
     });
 }
+
+export const RUTA_BACKEND= "http://localhost:8080";
