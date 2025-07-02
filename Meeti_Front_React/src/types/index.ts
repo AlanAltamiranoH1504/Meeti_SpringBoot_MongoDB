@@ -11,3 +11,4 @@ export type Usuario = {
 
 export type UsuarioRegistro = Pick<Usuario, "nombre" | "apellidos" | "username" | "email" | "password">
 export type UsuarioLogin = Pick<Usuario, "email" | "password">
+export type UsuarioLogeado = Pick<Usuario, "id" | "nombre" | "apellidos" | "email">

@@ -1,15 +1,34 @@
 import {Fragment} from "react";
 import {useForm} from "react-hook-form";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import type {UsuarioLogin} from "../types";
+import {useMutation} from "@tanstack/react-query";
+import {toast} from "react-toastify";
+import {loginUsuario} from "../api/ApiSpringBoot";
+import {AxiosError} from "axios";
 
 const FormLogin = () => {
     const {register, handleSubmit, formState: {errors}} = useForm<UsuarioLogin>();
+    const navigate = useNavigate();
 
     function iniciarSesion(data: UsuarioLogin) {
-        console.log(data);
-        console.log("Iniciando sesion");
+        mutatioLoginUser.mutate(data);
     }
+
+    const mutatioLoginUser = useMutation({
+        mutationKey: ["mutatioLoginUser"],
+        mutationFn: loginUsuario,
+        onSuccess: (data) => {
+            console.log(data)
+            toast.success("Inicio de sesión correcto.");
+            navigate("/administracion");
+        },
+        onError: (error: AxiosError<{msg: string}>) => {
+            if (error.isAxiosError){
+                toast.error(error.response?.data?.msg);
+            }
+        }
+    })
     return (
         <Fragment>
             <form
