@@ -10,3 +10,4 @@ export type Usuario = {
 }
 
 export type UsuarioRegistro = Pick<Usuario, "nombre" | "apellidos" | "username" | "email" | "password">
+export type UsuarioLogin = Pick<Usuario, "email" | "password">
