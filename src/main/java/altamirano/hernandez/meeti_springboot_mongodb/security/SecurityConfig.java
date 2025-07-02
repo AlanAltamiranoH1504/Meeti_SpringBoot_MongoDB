@@ -65,7 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/login/**", "register/**").permitAll()
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/grupos/**", "/categorias/**").authenticated()
+                        .requestMatchers("/grupos/**", "/categorias/**", "/usuarios/**").authenticated()
                 )
                 .sessionManagement(managment -> managment
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -82,7 +82,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost:5174"));
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
 

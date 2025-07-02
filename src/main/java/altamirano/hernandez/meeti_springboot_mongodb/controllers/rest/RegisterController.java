@@ -22,8 +22,6 @@ public class RegisterController {
     @Autowired
     private IUsuarioService iUsuarioService;
     @Autowired
-    private IRolService iRolService;
-    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private EnvioEmails emails;
@@ -50,15 +48,6 @@ public class RegisterController {
                     json.put("msg", "Email ya registrado.");
                     return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
                 }
-
-                //Seteo de rol por default
-                Rol rolDefault = iRolService.findRolByNombre("USER");
-                if (rolDefault != null) {
-                    List<Rol> rolesDelUsuario = new ArrayList<>();
-                    rolesDelUsuario.add(rolDefault);
-                    usuario.setRoles(rolesDelUsuario);
-                }
-
                 //Guardado del usuario
                 usuario.setToken(TokensString.tokenString());
                 usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
