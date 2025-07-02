@@ -8,7 +8,10 @@ import java.util.Optional;
 
 public interface IUsuarioRepository extends MongoRepository<Usuario, String> {
 
-    @Query("{'email': ?0, 'confirmado': true}")
+    //TODO: Modificar para considerar la confirmacion de cuenta en el backend
+//    @Query("{'email': ?0, 'confirmado': true}")
+//    public Optional<Usuario> findByEmail(String email);
+    @Query("{'email': ?0}")
     public Optional<Usuario> findByEmail(String email);
 
     @Query("{'username': ?0}")
