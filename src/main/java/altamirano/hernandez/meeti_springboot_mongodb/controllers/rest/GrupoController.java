@@ -42,7 +42,6 @@ public class GrupoController {
         try {
             Usuario usuario = usuarioAutenticadoHelper.usuarioAutenticado();
             List<Grupo> grupos = iGrupoService.findByUserId(usuario.getId());
-            System.out.println("Cantidad de grupos: " + grupos.size());
             if (grupos.size() > 0) {
                 return ResponseEntity.status(HttpStatus.OK).body(grupos);
             } else {
@@ -66,8 +65,11 @@ public class GrupoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
         } else {
             try {
+                System.out.println(grupo.toString());
+
                 Usuario usuario = usuarioAutenticadoHelper.usuarioAutenticado();
                 grupo.setUsuario(usuario);
+                grupo.setCategoriaId(grupo.getCategoriaId());
                 grupo.setCreatedAt(LocalDateTime.now());
                 Grupo grupoSaved = iGrupoService.save(grupo);
                 json.put("msg", "Grupo guardado exitosamente");
@@ -102,21 +104,17 @@ public class GrupoController {
             String urlImagen = result.get("url").toString();
         } catch (Exception e) {
             Error error = new Error("Error en subida de imagen", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
         return null;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id, @CookieValue("usuario_id") String usuarioId) {
+    public ResponseEntity<?> findById(@PathVariable String id) {
         Map<String, Object> json = new HashMap<>();
         try {
             Optional<Grupo> grupo = iGrupoService.findById(id);
+            Usuario usuarioInSesion = usuarioAutenticadoHelper.usuarioAutenticado();
             if (grupo.isPresent()) {
-                if (!grupo.get().getUsuario().getId().equals(usuarioId)) {
-                    json.put("msg", "Acceso no permitido");
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);
-                }
                 return ResponseEntity.status(HttpStatus.OK).body(grupo.get());
             } else {
                 json.put("msg", "Grupo no encontrado");
@@ -129,7 +127,7 @@ public class GrupoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody altamirano.hernandez.meeti_springboot_mongodb.models.dto.Grupo grupo, @CookieValue("usuario_id") String usuarioID, BindingResult bindingResult, @PathVariable String id) {
+    public ResponseEntity<?> update(@Valid @RequestBody altamirano.hernandez.meeti_springboot_mongodb.models.dto.Grupo grupo, BindingResult bindingResult, @PathVariable String id) {
         Map<String, Object> json = new HashMap<>();
         if (bindingResult.hasErrors()) {
             Map<String, Object> errores = new HashMap<>();
@@ -146,7 +144,8 @@ public class GrupoController {
                     group.setDescripcion(grupo.getDescripcion());
                     group.setImagen(grupo.getImagen());
                     group.setSitioWeb(grupo.getSitioWeb());
-                    group.setCategoria(grupo.getCategoria());
+                    group.setCategoriaId(grupo.getCategoriaId());
+                    System.out.println(group.toString());
 
                     Grupo savedGrupo = iGrupoService.save(group);
                     json.put("msg", "Grupo actualizado exitosamente");

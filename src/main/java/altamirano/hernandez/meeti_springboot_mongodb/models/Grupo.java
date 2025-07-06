@@ -30,7 +30,8 @@ public class Grupo {
     private LocalDateTime updatedAt;
 
     //Un grupo tiene una categoria
-    String categoria;
+//    @NotBlank(message = "La categoria es obligatoria")
+    String categoriaId;
     //Un usuario tiene un Usuario
     Usuario usuario;
 
@@ -45,23 +46,23 @@ public class Grupo {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
-    public Grupo(String nombre, String descripcion, String imagen, String sitioWeb, String categoria, LocalDateTime createdAt, LocalDateTime updatedAt, Usuario usuario) {
+    public Grupo(String nombre, String descripcion, String imagen, String sitioWeb, String categoriaId, LocalDateTime createdAt, LocalDateTime updatedAt, Usuario usuario) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.sitioWeb = sitioWeb;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.usuario = usuario;
     }
-    public Grupo(String id, String nombre, String descripcion, String imagen, String sitioWeb, String categoria, LocalDateTime createdAt, LocalDateTime updatedAt, Usuario usuario) {
+    public Grupo(String id, String nombre, String descripcion, String imagen, String sitioWeb, String categoriaId, LocalDateTime createdAt, LocalDateTime updatedAt, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.sitioWeb = sitioWeb;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.usuario = usuario;
@@ -108,12 +109,12 @@ public class Grupo {
         this.sitioWeb = sitioWeb;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -145,11 +146,26 @@ public class Grupo {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Grupo grupo = (Grupo) o;
-        return Objects.equals(id, grupo.id) && Objects.equals(nombre, grupo.nombre) && Objects.equals(descripcion, grupo.descripcion) && Objects.equals(imagen, grupo.imagen) && Objects.equals(sitioWeb, grupo.sitioWeb) && Objects.equals(createdAt, grupo.createdAt) && Objects.equals(updatedAt, grupo.updatedAt) && Objects.equals(categoria, grupo.categoria) && Objects.equals(usuario, grupo.usuario);
+        return Objects.equals(id, grupo.id) && Objects.equals(nombre, grupo.nombre) && Objects.equals(descripcion, grupo.descripcion) && Objects.equals(imagen, grupo.imagen) && Objects.equals(sitioWeb, grupo.sitioWeb) && Objects.equals(createdAt, grupo.createdAt) && Objects.equals(updatedAt, grupo.updatedAt) && Objects.equals(categoriaId, grupo.categoriaId) && Objects.equals(usuario, grupo.usuario);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, imagen, sitioWeb, createdAt, updatedAt, categoria, usuario);
+        return Objects.hash(id, nombre, descripcion, imagen, sitioWeb, createdAt, updatedAt, categoriaId, usuario);
+    }
+
+    @Override
+    public String toString() {
+        return "Grupo{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", imagen='" + imagen + '\'' +
+                ", sitioWeb='" + sitioWeb + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", categoriaId='" + categoriaId + '\'' +
+                ", usuario=" + usuario +
+                '}';
     }
 }

@@ -15,16 +15,16 @@ public class Grupo {
     private String imagen;
     private String sitioWeb;
     @NotBlank(message = "La categoria es obligatoria")
-    String categoria;
+    String categoriaId;
 
     public Grupo() {
     }
-    public Grupo(String nombre, String descripcion, String imagen, String sitioWeb, String categoria) {
+    public Grupo(String nombre, String descripcion, String imagen, String sitioWeb, String categoriaId) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.sitioWeb = sitioWeb;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
     }
 
     public String getNombre() {
@@ -59,11 +59,11 @@ public class Grupo {
         this.sitioWeb = sitioWeb;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
     }
 }
