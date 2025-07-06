@@ -114,6 +114,24 @@ export async function updateGrupoPeticion(grupo: UpdateGrupo) {
     }
 }
 
+export async function updateImagenGrupoPeticion(formData: FormData) {
+    try {
+        const idGrupo = formData.get("id");
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.post(`/imagenes/grupo/${idGrupo}`, formData, {
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        return response.data;
+    }catch (e) {
+        console.log(e)
+        throw e;
+    }
+}
+
 export async function deleteGrupoById(id: number) {
     try {
         // @ts-ignore

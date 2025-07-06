@@ -35,7 +35,7 @@ const GrupoDetallesRow = ({grupo}: GrupoDetallesRowProps) => {
             <h2 className="font-fjalla text-3xl uppercase">{grupo.nombre}</h2>
             <div className="flex flex-col md:flex-row gap-4">
                 <Link to={`/grupos/edicion/${grupo.id}`} className="border-2 border-orange-600 py-4 px-24 rounded-lg shadow-md bg-orange-500 text-white font-semibold font-fjalla hover:bg-gray-50 hover:text-orange-500 text-center">Editar</Link>
-                <Link to="" className="border-2 border-indigo-600 py-4 px-24 rounded-lg shadow-md bg-indigo-600 text-white font-semibold font-fjalla hover:bg-gray-50 hover:text-indigo-600 text-center">Imagen de Grupo</Link>
+                <Link to={`/grupos/edicion/imagen/${grupo.id}`} className="border-2 border-indigo-600 py-4 px-24 rounded-lg shadow-md bg-indigo-600 text-white font-semibold font-fjalla hover:bg-gray-50 hover:text-indigo-600 text-center">Imagen de Grupo</Link>
                 <button
                     type="button"
                     className="border-2 border-red-600 py-4 px-24 rounded-lg shadow-md bg-red-600 text-white font-semibold font-fjalla hover:bg-gray-50 hover:text-red-600 text-center"
