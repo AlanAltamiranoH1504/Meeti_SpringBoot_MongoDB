@@ -17,9 +17,9 @@ const HeaderApp = () => {
                     <div className="w-full py-5 lg:p-0 md:w-1/4 space-x-6">
                         <Link to="/administracion/crear-grupo" className="border-b-4 border-red-600 text-xl font-semibold text-red-600 hover:bg-gray-800 hover:text-white hover:border-none hover:p-1 hover:rounded-md">Crear Grupo</Link>
                         <Link to="/administracion/perfil" className="border-b-4 border-red-600 text-xl font-semibold text-red-600 hover:bg-gray-800 hover:text-white hover:border-none hover:p-1 hover:rounded-md">Mi Perfil</Link>
-                        <Link onClick={() => {
+                        <a onClick={() => {
                             localStorage.removeItem("TOKEN_MEETI");
-                        }} className="border-b-4 border-red-600 text-xl font-semibold text-red-600 hover:bg-gray-800 hover:text-white hover:border-none hover:p-1 hover:rounded-md">Salir</Link>
+                        }} className="border-b-4 border-red-600 text-xl font-semibold text-red-600 hover:bg-gray-800 hover:text-white hover:border-none hover:p-1 hover:rounded-md">Salir</a>
                     </div>
                 </div>
             </header>

@@ -54,6 +54,21 @@ export async function findAllCategoria() {
     }
 }
 
+export async function findAllGruposByUsuarioId() {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.get("/grupos", {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}
+
 export async  function saveGrupoPeticion(grupo: SaveGrupo) {
     try {
         // @ts-ignore

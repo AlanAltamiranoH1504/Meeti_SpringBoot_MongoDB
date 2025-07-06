@@ -18,8 +18,7 @@ const FormLogin = () => {
     const mutatioLoginUser = useMutation({
         mutationKey: ["mutatioLoginUser"],
         mutationFn: loginUsuario,
-        onSuccess: (data) => {
-            console.log(data)
+        onSuccess: () => {
             toast.success("Inicio de sesión correcto.");
             navigate("/administracion");
         },

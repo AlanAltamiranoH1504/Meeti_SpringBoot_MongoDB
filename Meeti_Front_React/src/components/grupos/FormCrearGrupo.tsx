@@ -25,6 +25,7 @@ const FormCrearGrupo = () => {
             ...data,
             descripcion: content
         };
+
         mutationSaveGrupo.mutate(dataConCategoria);
     }
 
@@ -87,13 +88,7 @@ const FormCrearGrupo = () => {
                             {errors.categoriaId && String(errors.categoriaId.message)}
                         </div>
                     </div>
-                    <div className="mb-4">
-                        <label form="imagen"
-                               className="font-fjalla font-semibold text-gray-600 text-xl block mb-2">Imagen:</label>
-                        <input type="file" accept="image/*"
-                               className="border p-2 w-full rounded-lg border-b-gray-300 font-fjalla"
-                               placeholder="Imagen:"/>
-                    </div>
+
                     <div className="mb-4">
                         <label htmlFor="web" className="font-fjalla font-semibold text-gray-600 text-xl block mb-2">Sitio
                             Web:</label>
