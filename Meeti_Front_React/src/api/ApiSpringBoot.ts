@@ -1,5 +1,5 @@
 import {clienteAxios} from "../config/clienteAxios";
-import type {SaveGrupo, UsuarioLogin, UsuarioRegistro} from "../types";
+import type {SaveGrupo, UpdateGrupo, UsuarioLogin, UsuarioRegistro} from "../types";
 
 export async function registroUsuario(usuario: UsuarioRegistro) {
     // eslint-disable-next-line no-useless-catch
@@ -69,6 +69,21 @@ export async function findAllGruposByUsuarioId() {
     }
 }
 
+export async function findGrupoByIdPeticion(id: string) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.get(`/grupos/${id}`, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}
+
 export async  function saveGrupoPeticion(grupo: SaveGrupo) {
     try {
         // @ts-ignore
@@ -76,6 +91,21 @@ export async  function saveGrupoPeticion(grupo: SaveGrupo) {
         const response = await clienteAxios.post("/grupos", grupo, {
             headers: {
                 "Authorization" : "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}
+
+export async function updateGrupoPeticion(grupo: UpdateGrupo) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.put(`/grupos/${grupo.id}`, grupo, {
+            headers: {
+                "Authorization": "Bearer " + token
             }
         });
         return response.data;

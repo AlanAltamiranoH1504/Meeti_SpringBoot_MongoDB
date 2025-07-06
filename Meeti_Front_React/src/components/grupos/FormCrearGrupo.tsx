@@ -25,7 +25,6 @@ const FormCrearGrupo = () => {
             ...data,
             descripcion: content
         };
-
         mutationSaveGrupo.mutate(dataConCategoria);
     }
 

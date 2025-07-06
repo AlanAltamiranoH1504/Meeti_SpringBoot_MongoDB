@@ -5,6 +5,7 @@ import LoginView from "./view/LoginView";
 import AppLayout from "./layouts/AppLayout";
 import AdministracionView from "./view/AdministracionView";
 import CrearGrupoView from "./view/grupos/CrearGrupoView";
+import EditarGrupoView from "./view/grupos/EditarGrupoView";
 
 const RouterApp = () => {
     return (
@@ -20,6 +21,11 @@ const RouterApp = () => {
                 <Route element={<AppLayout/>}>
                     <Route path="/administracion" element={<AdministracionView/>}/>
                     <Route path="/administracion/crear-grupo" element={<CrearGrupoView/>}/>
+                </Route>
+
+                {/*Rutas par grupos*/}
+                <Route element={<AppLayout/>}>
+                    <Route path="/grupos/edicion/:id" element={<EditarGrupoView/>}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
