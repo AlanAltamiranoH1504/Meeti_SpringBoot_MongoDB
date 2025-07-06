@@ -3,8 +3,11 @@ package altamirano.hernandez.meeti_springboot_mongodb.controllers.rest;
 import altamirano.hernandez.meeti_springboot_mongodb.models.Grupo;
 import altamirano.hernandez.meeti_springboot_mongodb.models.Usuario;
 import altamirano.hernandez.meeti_springboot_mongodb.models.dto.Error;
+import altamirano.hernandez.meeti_springboot_mongodb.models.dto.UsuarioDTO;
+import altamirano.hernandez.meeti_springboot_mongodb.services.cloudinary.CloudinaryService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IGrupoService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IUsuarioService;
+import altamirano.hernandez.meeti_springboot_mongodb.services.usuarios.UsuarioAutenticadoHelper;
 import altamirano.hernandez.meeti_springboot_mongodb.utils.TokensString;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -27,26 +31,32 @@ public class GrupoController {
     private IGrupoService iGrupoService;
     @Autowired
     private IUsuarioService iUsuarioService;
+    @Autowired
+    private UsuarioAutenticadoHelper usuarioAutenticadoHelper;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("")
     public ResponseEntity<?> findAll() {
         Map<String, Object> json = new HashMap<>();
         try {
-            List<Grupo> grupos = iGrupoService.findAll();
+            Usuario usuario = usuarioAutenticadoHelper.usuarioAutenticado();
+            List<Grupo> grupos = iGrupoService.findByUserId(usuario.getId());
+            System.out.println("Cantidad de grupos: " + grupos.size());
             if (grupos.size() > 0) {
                 return ResponseEntity.status(HttpStatus.OK).body(grupos);
             } else {
-                json.put("msg", "No existe grupos creados");
+                json.put("error", "No existe grupos creados");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(json);
             }
         } catch (RuntimeException e) {
-            json.put("msg", e.getMessage());
+            json.put("error", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(json);
         }
     }
 
     @PostMapping("")
-    public ResponseEntity<?> save(@Valid @RequestBody Grupo grupo, @CookieValue("usuario_id") String usuarioID, BindingResult bindingResult) {
+    public ResponseEntity<?> save(@Valid @RequestBody Grupo grupo, BindingResult bindingResult) {
         Map<String, Object> json = new HashMap<>();
         if (bindingResult.hasErrors()) {
             Map<String, Object> errores = new HashMap<>();
@@ -56,7 +66,7 @@ public class GrupoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errores);
         } else {
             try {
-                Usuario usuario = iUsuarioService.findById(usuarioID);
+                Usuario usuario = usuarioAutenticadoHelper.usuarioAutenticado();
                 grupo.setUsuario(usuario);
                 grupo.setCreatedAt(LocalDateTime.now());
                 Grupo grupoSaved = iGrupoService.save(grupo);
@@ -70,50 +80,31 @@ public class GrupoController {
         }
     }
 
-    @PutMapping("/save-imagen/{id}")
-    public ResponseEntity<?> saveImagenDeGrupo(@RequestParam("imagen") MultipartFile imagen, @PathVariable String id) {
+    @PutMapping("/save-imagen")
+    public String saveImagenDeGrupo(@RequestParam("imagen") MultipartFile imagen) {
         Map<String, Object> json = new HashMap<>();
         try {
+            //Validaciones de archivo
             if (imagen.isEmpty()) {
-                json.put("msg", "La imagen no fue cargada de forma correcta");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(json);
+                json.put("error", "Imagen no cargada de forma correcta");
+                return null;
             }
-
-            //Validacion de existensiones
+            //Validacion de extensiones
             String extensionArchivo = imagen.getContentType();
-            List<String> extensionesPermitidas = Arrays.asList("image/jpeg", "image/png");
-            if (!extensionesPermitidas.contains(extensionArchivo)) {
-                json.put("msg", "La extension del archivo no es valida");
-                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(json);
+            List<String> extensionesValidas = Arrays.asList("image/png", "image/jpeg", "image/jpg");
+            if (!extensionesValidas.contains(extensionArchivo)) {
+                json.put("error", "Extension de imagen no valida. Solo png, jpeg o jpg");
+                return null;
             }
 
-            //Creacion de carpeta destino
-            String carpetaDestino = Paths.get("static/uploads").toAbsolutePath().toString();
-            File directorioDestino = new File(carpetaDestino);
-            if (!directorioDestino.exists()) {
-                directorioDestino.mkdirs();
-            }
-
-            //Guardado de imagen
-            String nombreArchivo = TokensString.tokenString() + "_" + imagen.getOriginalFilename();
-            Optional<Grupo> grupo = iGrupoService.findById(id);
-            Grupo grupoUpdated = grupo.get();
-
-            //Eliminiacion de imagen vieja
-            if (grupoUpdated.getImagen() != null) {
-                Files.deleteIfExists(Paths.get(carpetaDestino + File.separator + grupoUpdated.getImagen()));
-            }
-
-            grupoUpdated.setImagen(nombreArchivo);
-            iGrupoService.save(grupoUpdated);
-            String rutaDestinoArchivo = directorioDestino + File.separator + nombreArchivo;
-            imagen.transferTo(new File(rutaDestinoArchivo));
-            json.put("msg", "Imagen de grupo guardada exitosamente");
-            return ResponseEntity.status(HttpStatus.OK).body(json);
+            //Subida de imagen a cluodinary
+            Map result = cloudinaryService.uploadImagen(imagen);
+            String urlImagen = result.get("url").toString();
         } catch (Exception e) {
             Error error = new Error("Error en subida de imagen", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
+        return null;
     }
 
     @GetMapping("/{id}")

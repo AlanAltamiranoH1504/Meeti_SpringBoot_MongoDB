@@ -58,11 +58,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Layout Dialect para reutilizar fragmentos -->
-        <dependency>
-            <groupId>nz.net.ultraq.thymeleaf</groupId>
-            <artifactId>thymeleaf-layout-dialect</artifactId>
-        </dependency>
         <!--Envio de Emails-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,6 +103,12 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--Cloudinary-->
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>1.34.0</version>
+        </dependency>
     </dependencies>
 
     <build>

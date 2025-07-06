@@ -22,7 +22,7 @@ public class UsuarioController {
     @GetMapping("/usuario-in-session")
     public ResponseEntity<?> usuarioInSession() {
         Map<String, Object> json = new HashMap<>();
-        UsuarioDTO usuarioEnSesion = usuarioAutenticadoHelper.usuarioAutenticado();
+        Usuario usuarioEnSesion = usuarioAutenticadoHelper.usuarioAutenticado();
         if (usuarioEnSesion == null) {
             json.put("error", "Usuario no autenticado.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(json);

@@ -83,3 +83,18 @@ export async  function saveGrupoPeticion(grupo: SaveGrupo) {
         throw e;
     }
 }
+
+export async function deleteGrupoById(id: number) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.delete(`/grupos/${id}`, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}

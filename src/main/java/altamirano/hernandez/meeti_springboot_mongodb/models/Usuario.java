@@ -43,6 +43,12 @@ public class Usuario {
     //Constructores
     public Usuario() {
     }
+    public Usuario(String nombre, String apellidos, String username, String email) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.username = username;
+        this.email = email;
+    }
 
     public Usuario(String nombre, String apellidos, String username, String email, String password) {
         this.nombre = nombre;
