@@ -4,6 +4,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import LoginView from "./view/LoginView";
 import AppLayout from "./layouts/AppLayout";
 import AdministracionView from "./view/AdministracionView";
+import CrearGrupoView from "./view/grupos/CrearGrupoView";
 
 const RouterApp = () => {
     return (
@@ -18,6 +19,7 @@ const RouterApp = () => {
                 {/*Ruta de area protegida por autenticacion*/}
                 <Route element={<AppLayout/>}>
                     <Route path="/administracion" element={<AdministracionView/>}/>
+                    <Route path="/administracion/crear-grupo" element={<CrearGrupoView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

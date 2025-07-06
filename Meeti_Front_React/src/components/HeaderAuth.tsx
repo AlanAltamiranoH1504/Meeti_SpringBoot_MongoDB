@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 const HeaderAuth = () => {
     return (
         <Fragment>
-            <header className="bg-gray-50 py-5">
+            <header className="bg-gray-50 py-5 border shadow-md">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:justify-between">
                     <div className="w-full p-5 lg:p-0 md:w-1/3">
                         <Link to="/login">
