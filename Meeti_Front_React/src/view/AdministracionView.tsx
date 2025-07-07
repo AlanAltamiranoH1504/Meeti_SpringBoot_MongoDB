@@ -42,7 +42,7 @@ const AdministracionView = () => {
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-center my-10 space-y-2 md:space-y-0 md:space-x-2">
                 <Link to="/administracion/crear-grupo" className="border-2 border-red-600 py-4 px-24 bg-red-600 text-white font-semibold text-lg rounded-lg text-center hover:bg-white hover:text-red-600 font-fjalla">Nuevo Grupo</Link>
                 <Link to="" className="border-2 border-indigo-600 py-4 px-24 bg-indigo-600 text-white font-semibold text-lg rounded-lg text-center hover:bg-white hover:text-indigo-600 font-fjalla">Nuevo Meeti</Link>
-                <Link to="" className="border-2 border-orange-500 py-4 px-24 bg-orange-500 text-white font-semibold text-lg rounded-lg text-center hover:bg-white hover:text-orange-500 font-fjalla">Editar Perfil</Link>
+                <Link to="/administracion/editar/perfil" className="border-2 border-orange-500 py-4 px-24 bg-orange-500 text-white font-semibold text-lg rounded-lg text-center hover:bg-white hover:text-orange-500 font-fjalla">Editar Perfil</Link>
                 <Link to="" className="border-2 border-emerald-700 py-4 px-24 bg-emerald-700 text-white font-semibold text-lg rounded-lg text-center hover:bg-white hover:text-emerald-700 font-fjalla">Editar Avatar</Link>
             </div>
 

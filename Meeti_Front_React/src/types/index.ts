@@ -30,3 +30,4 @@ export type UsuarioLogeado = Pick<Usuario, "id" | "nombre" | "apellidos" | "emai
 export type SaveGrupo = Pick<Grupo, "nombre" | "descripcion" | "categoriaId" | "imagen" | "sitioWeb">
 export type UpdateGrupo = Pick<Grupo, "id" | "nombre" | "descripcion" | "categoriaId" | "sitioWeb">
 export type UpdateImagenGrupo = Pick<Grupo, "imagen">
+export type UpdatePerfilUsuario = Pick<Usuario, "nombre" | "apellidos" | "username" | "email" | "password">

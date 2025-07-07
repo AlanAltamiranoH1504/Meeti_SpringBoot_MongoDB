@@ -3,6 +3,7 @@ import {Outlet, useNavigate} from "react-router-dom";
 import HeaderApp from "../components/HeaderApp";
 import {useQuery} from "@tanstack/react-query";
 import {findAllCategoria, usuarioEnSesion} from "../api/ApiSpringBoot";
+import Footer from "../components/Footer";
 
 const AppLayout = () => {
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const AppLayout = () => {
                         <Outlet/>
                     </div>
                 </div>
+                <Footer/>
             </div>
         </Fragment>
     );

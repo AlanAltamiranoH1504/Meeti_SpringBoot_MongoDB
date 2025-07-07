@@ -1,5 +1,5 @@
 import {clienteAxios} from "../config/clienteAxios";
-import type {SaveGrupo, UpdateGrupo, UsuarioLogin, UsuarioRegistro} from "../types";
+import type {SaveGrupo, UpdateGrupo, UpdatePerfilUsuario, UsuarioLogin, UsuarioRegistro} from "../types";
 
 export async function registroUsuario(usuario: UsuarioRegistro) {
     // eslint-disable-next-line no-useless-catch
@@ -29,6 +29,21 @@ export async function usuarioEnSesion() {
         // @ts-ignore
         const token: string = localStorage.getItem("TOKEN_MEETI");
         const response = await clienteAxios.get("/usuarios/usuario-in-session", {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}
+
+export async function updateInformacionPerfilPeticion(usuario: UpdatePerfilUsuario) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.put("/usuarios/update-perfiil", usuario, {
             headers: {
                 "Authorization": "Bearer " + token
             }
