@@ -54,6 +54,25 @@ export async function updateInformacionPerfilPeticion(usuario: UpdatePerfilUsuar
     }
 }
 
+export async function updateImagenPerfil(formData: FormData) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.post(`/imagenes/avatar`, formData, {
+            headers: {
+                "Authorization": "Bearer " + token,
+                "Content-Type": "multipart/form-data"
+            }
+        });
+        return response.data;
+    }catch (e) {
+        console.log(e)
+        throw e;
+    }
+}
+
+
+
 export async function findAllCategoria() {
     try {
         // @ts-ignore

@@ -5,6 +5,7 @@ export type Usuario = {
     username: string,
     email: string,
     password: string,
+    imagen: string,
     token: string,
     confirmado: boolean
 }
@@ -26,8 +27,9 @@ export type Categoria = {
 
 export type UsuarioRegistro = Pick<Usuario, "nombre" | "apellidos" | "username" | "email" | "password">
 export type UsuarioLogin = Pick<Usuario, "email" | "password">
-export type UsuarioLogeado = Pick<Usuario, "id" | "nombre" | "apellidos" | "email">
+export type UsuarioLogeado = Pick<Usuario, "id" | "nombre" | "apellidos" | "email" | "username" | "imagen" >
 export type SaveGrupo = Pick<Grupo, "nombre" | "descripcion" | "categoriaId" | "imagen" | "sitioWeb">
 export type UpdateGrupo = Pick<Grupo, "id" | "nombre" | "descripcion" | "categoriaId" | "sitioWeb">
 export type UpdateImagenGrupo = Pick<Grupo, "imagen">
 export type UpdatePerfilUsuario = Pick<Usuario, "nombre" | "apellidos" | "username" | "email" | "password">
+export type UpdateImagenUsuario = Pick<Usuario, "imagen">

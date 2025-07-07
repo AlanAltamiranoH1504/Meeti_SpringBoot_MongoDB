@@ -8,6 +8,7 @@ import CrearGrupoView from "./view/grupos/CrearGrupoView";
 import EditarGrupoView from "./view/grupos/EditarGrupoView";
 import EditarImagenView from "./view/grupos/EditarImagenView";
 import EditarPerfilView from "./view/usuario/EditarPerfilView";
+import EditarAvatarView from "./view/usuario/EditarAvatarView";
 
 const RouterApp = () => {
     return (
@@ -34,6 +35,7 @@ const RouterApp = () => {
                 {/* Rutas para usuario*/}
                 <Route element={<AppLayout/>}>
                     <Route path="/administracion/editar/perfil" element={<EditarPerfilView/>}/>
+                    <Route path="/administracion/editar/avatar" element={<EditarAvatarView/>}/>
                 </Route>
             </Routes>
         </BrowserRouter>

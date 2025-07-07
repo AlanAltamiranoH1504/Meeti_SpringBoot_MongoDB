@@ -33,6 +33,8 @@ public class Usuario {
     @Size(min = 5, max = 70, message = "El password debe tener una extension de entre 5 70 caracteres")
     private String password;
 
+    private String imagen;
+
     //Atributos no aplicables para validacion
     private String token;
     private boolean confirmado;
@@ -50,12 +52,13 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(String id, String nombre, String apellidos, String username, String email) {
+    public Usuario(String id, String nombre, String apellidos, String username, String email, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.username = username;
         this.email = email;
+        this.imagen = imagen;
     }
 
 //    public Usuario(String nombre, String apellidos, String username, String email, String password) {
@@ -66,7 +69,7 @@ public class Usuario {
 //        this.password = password;
 //    }
 
-    public Usuario(String nombre, String apellidos, String username, String email, String password, String token, boolean confirmado, List<Rol> roles) {
+    public Usuario(String nombre, String apellidos, String username, String email, String password, String token, boolean confirmado, List<Rol> roles, String imagen) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.username = username;
@@ -75,6 +78,7 @@ public class Usuario {
         this.token = token;
         this.confirmado = confirmado;
         this.roles = roles;
+        this.imagen = imagen;
     }
 
     //G y S
@@ -148,6 +152,14 @@ public class Usuario {
 
     public void setRoles(List<Rol> roles) {
         this.roles = roles;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     //E y H

@@ -1,8 +1,10 @@
 package altamirano.hernandez.meeti_springboot_mongodb.controllers.rest;
 
 import altamirano.hernandez.meeti_springboot_mongodb.models.Grupo;
+import altamirano.hernandez.meeti_springboot_mongodb.models.Usuario;
 import altamirano.hernandez.meeti_springboot_mongodb.services.cloudinary.CloudinaryService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IGrupoService;
+import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IUsuarioService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.usuarios.UsuarioAutenticadoHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +25,12 @@ public class ImagenController {
     private IGrupoService iGrupoService;
     @Autowired
     private UsuarioAutenticadoHelper usuarioAutenticadoHelper;
+    @Autowired
+    private IUsuarioService iUsuarioService;
 
     @PostMapping("/grupo/{id}")
     public ResponseEntity<?> updateImagenGrupo(@RequestParam MultipartFile imagen, @PathVariable String id){
         Map<String, Object> json = new HashMap<>();
-        System.out.println("Entra aca");
         try {
             //Validacion de existencia de archivo
             if (imagen.isEmpty()) {
@@ -62,6 +65,39 @@ public class ImagenController {
             datosGrupo.setImagen(url);
             iGrupoService.save(datosGrupo);
             json.put("success", "Imagen de grupo actualizada.");
+            return ResponseEntity.status(HttpStatus.OK).body(json);
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/avatar")
+    public ResponseEntity<?> updateImagenAvatar(@RequestParam MultipartFile imagen){
+        Map<String, Object> json = new HashMap<>();
+        try {
+            //Validacion de archivi
+            if (imagen.isEmpty()) {
+                json.put("error", "Imagen no subida correctamente");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
+            }
+
+            //Validacion de extensiones
+            String extensionArchivo = imagen.getContentType();
+            List<String> extensionesValidas = Arrays.asList("image/jpeg", "image/png", "image/jpg");
+            if (!extensionesValidas.contains(extensionArchivo)) {
+                json.put("error", "Extension de archivo no valida");
+                return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(json);
+            }
+
+            //Subida de archivo a cloud
+            Map result = cloudinaryService.uploadImagen(imagen);
+            String url = result.get("url").toString();
+            Usuario usuarioInSession = usuarioAutenticadoHelper.usuarioAutenticado();
+            usuarioInSession.setImagen(url);
+            iUsuarioService.save(usuarioInSession);
+            json.put("success", "Imagen de perfil actualizada.");
             return ResponseEntity.status(HttpStatus.OK).body(json);
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

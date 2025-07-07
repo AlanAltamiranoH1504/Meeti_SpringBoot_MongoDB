@@ -14,7 +14,7 @@ public class UsuarioAutenticadoHelper {
             if (principal  instanceof Usuario) {
                 Usuario usuario = (Usuario) principal;
 //                return new Usuario(usuario.getId(), usuario.getNombre(), usuario.getApellidos(), usuario.getEmail());
-                return new Usuario(usuario.getId(),usuario.getNombre(), usuario.getApellidos(), usuario.getUsername(), usuario.getEmail());
+                return new Usuario(usuario.getId(),usuario.getNombre(), usuario.getApellidos(), usuario.getUsername(), usuario.getEmail(), usuario.getImagen());
             }
         }
         return null;

@@ -23,7 +23,7 @@ const AppLayout = () => {
 
     if (isLoading) {
         return "Loading...";
-    };
+    }
     if (isError) {
         navigate("/login");
     }
