@@ -50,13 +50,21 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(String nombre, String apellidos, String username, String email, String password) {
+    public Usuario(String id, String nombre, String apellidos, String username, String email) {
+        this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.username = username;
         this.email = email;
-        this.password = password;
     }
+
+//    public Usuario(String nombre, String apellidos, String username, String email, String password) {
+//        this.nombre = nombre;
+//        this.apellidos = apellidos;
+//        this.username = username;
+//        this.email = email;
+//        this.password = password;
+//    }
 
     public Usuario(String nombre, String apellidos, String username, String email, String password, String token, boolean confirmado, List<Rol> roles) {
         this.nombre = nombre;
@@ -153,5 +161,19 @@ public class Usuario {
     @Override
     public int hashCode() {
         return Objects.hash(id, nombre, apellidos, username, email, password, token, confirmado, roles);
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id='" + id + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                ", confirmado=" + confirmado +
+                '}';
     }
 }
