@@ -9,6 +9,7 @@ import EditarGrupoView from "./view/grupos/EditarGrupoView";
 import EditarImagenView from "./view/grupos/EditarImagenView";
 import EditarPerfilView from "./view/usuario/EditarPerfilView";
 import EditarAvatarView from "./view/usuario/EditarAvatarView";
+import CrearMeetiView from "./view/meetis/CrearMeetiView";
 
 const RouterApp = () => {
     return (
@@ -24,6 +25,7 @@ const RouterApp = () => {
                 <Route element={<AppLayout/>}>
                     <Route path="/administracion" element={<AdministracionView/>}/>
                     <Route path="/administracion/crear-grupo" element={<CrearGrupoView/>}/>
+                    <Route path="/administracion/crear-meeti" element={<CrearMeetiView/>}></Route>
                 </Route>
 
                 {/*Rutas par grupos*/}
