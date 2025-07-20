@@ -4,6 +4,7 @@ import HeaderApp from "../components/HeaderApp";
 import {useQuery} from "@tanstack/react-query";
 import {findAllCategoria, usuarioEnSesion} from "../api/ApiSpringBoot";
 import Footer from "../components/Footer";
+import Cargando from "../components/Cargando";
 
 const AppLayout = () => {
     const navigate = useNavigate();
@@ -22,7 +23,7 @@ const AppLayout = () => {
     })
 
     if (isLoading) {
-        return "Loading...";
+        <Cargando/>
     }
     if (isError) {
         navigate("/login");

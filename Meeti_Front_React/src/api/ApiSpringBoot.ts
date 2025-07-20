@@ -1,5 +1,5 @@
 import {clienteAxios} from "../config/clienteAxios";
-import type {SaveGrupo, UpdateGrupo, UpdatePerfilUsuario, UsuarioLogin, UsuarioRegistro} from "../types";
+import type {SaveGrupo, SaveMeeti, UpdateGrupo, UpdatePerfilUsuario, UsuarioLogin, UsuarioRegistro} from "../types";
 
 export async function registroUsuario(usuario: UsuarioRegistro) {
     // eslint-disable-next-line no-useless-catch
@@ -11,14 +11,14 @@ export async function registroUsuario(usuario: UsuarioRegistro) {
     }
 }
 
-export async function loginUsuario(usuario: UsuarioLogin){
+export async function loginUsuario(usuario: UsuarioLogin) {
     // eslint-disable-next-line no-useless-catch
     try {
         const response = await clienteAxios.post("/login", usuario);
-        const token : string = response.data.token;
+        const token: string = response.data.token;
         localStorage.setItem("TOKEN_MEETI", token);
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -34,7 +34,7 @@ export async function usuarioEnSesion() {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -49,7 +49,7 @@ export async function updateInformacionPerfilPeticion(usuario: UpdatePerfilUsuar
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -65,12 +65,11 @@ export async function updateImagenPerfil(formData: FormData) {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e)
         throw e;
     }
 }
-
 
 
 export async function findAllCategoria() {
@@ -83,7 +82,7 @@ export async function findAllCategoria() {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -98,7 +97,7 @@ export async function findAllGruposByUsuarioId() {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -113,22 +112,22 @@ export async function findGrupoByIdPeticion(id: string) {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
 
-export async  function saveGrupoPeticion(grupo: SaveGrupo) {
+export async function saveGrupoPeticion(grupo: SaveGrupo) {
     try {
         // @ts-ignore
         const token: string = localStorage.getItem("TOKEN_MEETI");
         const response = await clienteAxios.post("/grupos", grupo, {
             headers: {
-                "Authorization" : "Bearer " + token
+                "Authorization": "Bearer " + token
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -143,7 +142,7 @@ export async function updateGrupoPeticion(grupo: UpdateGrupo) {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         throw e;
     }
 }
@@ -160,7 +159,7 @@ export async function updateImagenGrupoPeticion(formData: FormData) {
             }
         });
         return response.data;
-    }catch (e) {
+    } catch (e) {
         console.log(e)
         throw e;
     }
@@ -176,7 +175,41 @@ export async function deleteGrupoById(id: number) {
             }
         });
         return response.data;
+    } catch (e) {
+        throw e;
+    }
+}
+
+/**
+ * PETICIONES PARA MEETICONTROLLER
+ */
+
+export async function findAllMeetisByUserIdPeticion() {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.get("/meetis/findAllByUserId", {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
     }catch (e) {
+        throw e;
+    }
+}
+
+export async function saveMeetiPeticion(meeti: SaveMeeti) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.post("/meetis", meeti, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    } catch (e) {
         throw e;
     }
 }

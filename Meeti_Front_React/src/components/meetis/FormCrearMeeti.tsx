@@ -1,7 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-import { findAllGruposByUsuarioId } from "../../api/ApiSpringBoot";
+import {useMutation, useQuery} from "@tanstack/react-query";
+import {findAllGruposByUsuarioId, saveMeetiPeticion} from "../../api/ApiSpringBoot";
 import Cargando from "../Cargando";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { TrixEditor } from "react-trix";
 import "trix/dist/trix.css";
 import "trix";
@@ -13,7 +13,8 @@ import { toast } from "react-toastify";
 
 const FormCrearMeeti = () => {
     const [content, setContent] = useState("");
-    const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<SaveMeeti>();
+    const { register, handleSubmit, formState: { errors }, setValue} = useForm<SaveMeeti>();
+    const navigate = useNavigate();
     const { data, isLoading, isError } = useQuery({
         queryKey: ["findGruposByUserId"],
         queryFn: findAllGruposByUsuarioId,
@@ -59,15 +60,24 @@ const FormCrearMeeti = () => {
             toast.error("La descripcion del meeti es obligatoria");
             return;
         }
-
-        const dataWithDescripcion = {
+        const dataWithDescripcion: SaveMeeti = {
             ...data,
             descripcion: content
         };
-
-        console.log("Guardando meeti con datos:", dataWithDescripcion);
-        // Aquí enviarías dataWithDescripcion a tu API o lógica
+        saveMeetiMutation.mutate(dataWithDescripcion);
     };
+
+    const saveMeetiMutation = useMutation({
+        mutationKey: ["saveMeetiMutation"],
+        mutationFn: saveMeetiPeticion,
+        onError: () => {
+            toast.error("Error en creacion de meeti");
+        },
+        onSuccess: () => {
+            toast.success("Meeti guardado correctamente");
+            navigate("/administracion");
+        }
+    })
 
     if (isLoading) {
         return <Cargando />
