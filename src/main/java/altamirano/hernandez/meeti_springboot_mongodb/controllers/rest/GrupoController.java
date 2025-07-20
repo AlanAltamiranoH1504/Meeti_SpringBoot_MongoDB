@@ -126,6 +126,24 @@ public class GrupoController {
         }
     }
 
+    @GetMapping("/grupos/user")
+    public ResponseEntity<?> findGruposByUserId() {
+        Map<String, Object> json = new HashMap<>();
+        try {
+            Usuario userInSesion = usuarioAutenticadoHelper.usuarioAutenticado();
+            List<Grupo> gruposByUserId = iGrupoService.findByUserId(userInSesion.getId());
+            if (gruposByUserId.size() > 0) {
+                return ResponseEntity.status(HttpStatus.OK).body(gruposByUserId);
+            }
+            json.put("msg", "No se encontraron grupos disponibles");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(json);
+        } catch (RuntimeException e) {
+            Error error = new Error("Error en busqueda de grupos de usuario", e.getMessage());
+            json.put("error", error);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(json);
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody altamirano.hernandez.meeti_springboot_mongodb.models.dto.Grupo grupo, BindingResult bindingResult, @PathVariable String id) {
         Map<String, Object> json = new HashMap<>();

@@ -20,17 +20,10 @@ public class Grupos {
     @Test
     @DisplayName("Busqueda de grupos por id de usuario")
     void findByUserId() {
-        String id = "68655fd5bd6635dea4845357";
+        String id = "686b0df5b7c6b35cf30159cb";
 
         List<Grupo> gruposPorUsarioId = iGrupoRepository.findByUserId(id);
         assertThat(gruposPorUsarioId.size() > 0).isTrue();
     }
 
-//    @Test
-//    @DisplayName("Busqueda de grupo por id y por usuario id")
-//    void findByIdAndUserId() {
-//        String id = "6851eb7661fec2de93b231b5";
-//        String userId = "68471a11a0b527b3b9f4664d";
-//
-//    }
 }

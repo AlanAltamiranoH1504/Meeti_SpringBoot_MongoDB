@@ -65,7 +65,7 @@ public class SecurityConfig {
                         .requestMatchers("/login/**", "register/**").permitAll()
                 )
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/grupos/**", "/categorias/**", "/usuarios/**", "/imagenes/**").authenticated()
+                        .requestMatchers("/grupos/**", "/categorias/**", "/usuarios/**", "/imagenes/**", "/meetis/**").authenticated()
                 )
                 .sessionManagement(managment -> managment
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
