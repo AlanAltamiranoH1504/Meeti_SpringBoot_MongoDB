@@ -6,6 +6,7 @@ import altamirano.hernandez.meeti_springboot_mongodb.models.dto.Error;
 import altamirano.hernandez.meeti_springboot_mongodb.services.interfaces.IMeetiService;
 import altamirano.hernandez.meeti_springboot_mongodb.services.usuarios.UsuarioAutenticadoHelper;
 import jakarta.validation.Valid;
+import org.springframework.beans.BeanInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class MeetiController {
 
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll() {
-        try{
+        try {
             List<Meeti> meetis = iMeetiService.findAll();
             if (meetis.isEmpty()) {
                 Error error = new Error("Meetis no encotrado", "El numero de meetis registrados es cero");
@@ -38,7 +39,7 @@ public class MeetiController {
             }
             return ResponseEntity.status(HttpStatus.OK).body(meetis);
         } catch (RuntimeException e) {
-            Error error =new Error("Error en listado de meetis", e.getMessage());
+            Error error = new Error("Error en listado de meetis", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
@@ -54,7 +55,7 @@ public class MeetiController {
             }
             return ResponseEntity.status(HttpStatus.OK).body(meetisByUserId);
         } catch (RuntimeException e) {
-            Error error =new Error("Error en listado de meetis del usuario", e.getMessage());
+            Error error = new Error("Error en listado de meetis del usuario", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
@@ -75,7 +76,7 @@ public class MeetiController {
             Error error = new Error("Meeti no encontrado", "El meeti con el id " + id + " no existe");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         } catch (RuntimeException e) {
-            Error error =new Error("Error en busquea de meeti con id: " + id, e.getMessage());
+            Error error = new Error("Error en busquea de meeti con id: " + id, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
         }
     }
@@ -104,10 +105,33 @@ public class MeetiController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable String id, @Valid @RequestBody Meeti meeti, BindingResult bindingResult) {
+        Map<String, Object> json = new HashMap<>();
+        if (bindingResult.hasErrors()) {
+            Map<String, Object> errores = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error -> {
+                errores.put(error.getField(), error.getDefaultMessage());
+            });
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errores);
+        } else {
+            Usuario userInSession = usuarioAutenticadoHelper.usuarioAutenticado();
+            Optional<Meeti> meetiToUpdate = iMeetiService.findById(id);
+            if (!meetiToUpdate.get().getUsuario_id().equals(userInSession.getId())) {
+                Error error = new Error("Recurso no permitido", "El meeti no se encuentra disponble para este usuario");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+            }
+            meeti.setId(meetiToUpdate.get().getId());
+            iMeetiService.save(meeti);
+            json.put("sucess", "Meeti actualizado correctamente");
+            return ResponseEntity.status(HttpStatus.OK).body(json);
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletById(@PathVariable String id) {
         Map<String, Object> json = new HashMap<>();
-        try{
+        try {
             Optional<Meeti> meetiToDelete = iMeetiService.findById(id);
             if (meetiToDelete.isPresent()) {
                 Usuario userInSession = usuarioAutenticadoHelper.usuarioAutenticado();
@@ -115,7 +139,7 @@ public class MeetiController {
                     iMeetiService.deleteById(id);
                     json.put("sucess", "Meeti eliminado correctamente");
                     return ResponseEntity.status(HttpStatus.OK).body(json);
-                } else{
+                } else {
                     Error error = new Error("Recurso no permitido", "El meeti no se encuentra disponble para este usuario");
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
                 }

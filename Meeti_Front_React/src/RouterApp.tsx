@@ -10,6 +10,7 @@ import EditarImagenView from "./view/grupos/EditarImagenView";
 import EditarPerfilView from "./view/usuario/EditarPerfilView";
 import EditarAvatarView from "./view/usuario/EditarAvatarView";
 import CrearMeetiView from "./view/meetis/CrearMeetiView";
+import ActualizarMeetiView from "./view/meetis/ActualizarMeetiView";
 
 const RouterApp = () => {
     return (
@@ -32,6 +33,11 @@ const RouterApp = () => {
                 <Route element={<AppLayout/>}>
                     <Route path="/grupos/edicion/:id" element={<EditarGrupoView/>}></Route>
                     <Route path="/grupos/edicion/imagen/:id" element={<EditarImagenView/>}></Route>
+                </Route>
+
+                {/*Rutas para meetis*/}
+                <Route element={<AppLayout/>}>
+                    <Route path="/meeti/edicion/:id" element={<ActualizarMeetiView/>}></Route>
                 </Route>
 
                 {/* Rutas para usuario*/}

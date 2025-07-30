@@ -44,7 +44,6 @@ const AdministracionView = () => {
         }
     }, [data, dataMeeti]);
 
-    console.log(grupos)
     return (
         <Fragment>
             <div className="max-w-7xl mx-auto md:flex flex-row">

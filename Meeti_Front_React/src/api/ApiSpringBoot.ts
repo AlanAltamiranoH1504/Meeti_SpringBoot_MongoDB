@@ -1,5 +1,13 @@
 import {clienteAxios} from "../config/clienteAxios";
-import type {SaveGrupo, SaveMeeti, UpdateGrupo, UpdatePerfilUsuario, UsuarioLogin, UsuarioRegistro} from "../types";
+import type {
+    Meeti,
+    SaveGrupo,
+    SaveMeeti,
+    UpdateGrupo,
+    UpdatePerfilUsuario,
+    UsuarioLogin,
+    UsuarioRegistro
+} from "../types";
 
 export async function registroUsuario(usuario: UsuarioRegistro) {
     // eslint-disable-next-line no-useless-catch
@@ -199,17 +207,47 @@ export async function findAllMeetisByUserIdPeticion() {
     }
 }
 
-export async function saveMeetiPeticion(meeti: SaveMeeti) {
+export async function findMeetiByIdPeticion(id: string) {
     try {
         // @ts-ignore
         const token: string = localStorage.getItem("TOKEN_MEETI");
-        const response = await clienteAxios.post("/meetis", meeti, {
+        const response = await clienteAxios.get(`/meetis/${id}`, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}
+
+export async function saveMeetiPeticion(meeti: Meeti) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.post("/meetis", meeti.id, {
             headers: {
                 "Authorization": "Bearer " + token
             }
         });
         return response.data;
     } catch (e) {
+        throw e;
+    }
+}
+
+export async function updateMeetiPeticion(meeti: Meeti) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.put(`/meetis/${meeti.id}`, meeti, {
+            headers:  {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
         throw e;
     }
 }
