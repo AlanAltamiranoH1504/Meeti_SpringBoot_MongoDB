@@ -213,3 +213,18 @@ export async function saveMeetiPeticion(meeti: SaveMeeti) {
         throw e;
     }
 }
+
+export async function deleteMeetiByIdPeticion(idMeeti: string) {
+    try {
+        // @ts-ignore
+        const token: string = localStorage.getItem("TOKEN_MEETI");
+        const response = await clienteAxios.delete(`/meetis/${idMeeti}`, {
+            headers: {
+                "Authorization": "Bearer " + token
+            }
+        });
+        return response.data;
+    }catch (e) {
+        throw e;
+    }
+}

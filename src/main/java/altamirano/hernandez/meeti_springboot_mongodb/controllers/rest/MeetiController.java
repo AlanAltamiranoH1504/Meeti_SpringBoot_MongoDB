@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +93,7 @@ public class MeetiController {
             } else {
                 Usuario userInSession = usuarioAutenticadoHelper.usuarioAutenticado();
                 meeti.setUsuario_id(userInSession.getId());
+                System.out.println(meeti.getHora());
                 iMeetiService.save(meeti);
                 json.put("sucess", "Meeti creado correctamente");
                 return ResponseEntity.status(HttpStatus.CREATED).body(json);

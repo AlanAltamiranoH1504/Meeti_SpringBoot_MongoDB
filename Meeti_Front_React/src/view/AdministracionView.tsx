@@ -39,7 +39,9 @@ const AdministracionView = () => {
             setGrupos(data)
             setMeetis(dataMeeti);
         }
-    }, [data, dataMeeti])
+    }, [data, dataMeeti]);
+
+    console.log(grupos)
     return (
         <Fragment>
             <div className="max-w-7xl mx-auto md:flex flex-row">
@@ -94,6 +96,7 @@ const AdministracionView = () => {
                 {meetis.map((meeti: Meeti) => {
                     return (
                         <MeetiDetallesRow
+                            key={meeti.id}
                             meeti={meeti}
                         />
                     );

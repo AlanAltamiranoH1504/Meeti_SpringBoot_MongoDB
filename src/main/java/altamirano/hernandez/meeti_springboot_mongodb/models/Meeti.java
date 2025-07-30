@@ -25,9 +25,11 @@ public class Meeti {
     @NotNull(message = "La fecha es obligatoria")
     private Date fecha;
     @NotNull(message = "La hora es obligatoria")
-    private LocalTime hora;
+    private String hora;
+
     @Positive(message = "El cupo debe ser minimo de 1")
     private int cupo;
+
     @NotBlank(message = "La descripcion es obligatoria")
     private String descripcion;
     @NotBlank(message = "La direccion es obligatoria")
@@ -46,7 +48,7 @@ public class Meeti {
     public Meeti() {
     }
 
-    public Meeti(String grupo_id, String usuario_id, String titulo, String invitado, Date fecha, LocalTime hora, int cupo, String descripcion, String direccion, String ciudad, String estado, String pais, String lat, String lng) {
+    public Meeti(String grupo_id, String usuario_id, String titulo, String invitado, Date fecha, String hora, int cupo, String descripcion, String direccion, String ciudad, String estado, String pais, String lat, String lng) {
         this.grupo_id = grupo_id;
         this.usuario_id = usuario_id;
         this.titulo = titulo;
@@ -63,7 +65,7 @@ public class Meeti {
         this.lng = lng;
     }
 
-    public Meeti(String id, String grupo_id, String usuario_id, String titulo, String invitado, Date fecha, LocalTime hora, int cupo, String descripcion, String direccion, String ciudad, String estado, String pais, String lat, String lng) {
+    public Meeti(String id, String grupo_id, String usuario_id, String titulo, String invitado, Date fecha, String hora, int cupo, String descripcion, String direccion, String ciudad, String estado, String pais, String lat, String lng) {
         this.id = id;
         this.grupo_id = grupo_id;
         this.usuario_id = usuario_id;
@@ -129,11 +131,11 @@ public class Meeti {
         this.fecha = fecha;
     }
 
-    public LocalTime getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(LocalTime hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
