@@ -6,13 +6,16 @@ import {findAllGruposByUsuarioId, findAllMeetisByUserIdPeticion} from "../api/Ap
 import GrupoDetallesRow from "../components/grupos/GrupoDetallesRow";
 import Cargando from "../components/Cargando";
 import MeetiDetallesRow from "../components/meetis/MeetiDetallesRow";
+import {formatoFecha, formatoHora} from "../helpers";
+import MeetiViejoDetallesRow from "../components/meetis/MeetiViejoDetallesRow";
 // import {toast} from "react-toastify";
 
 const AdministracionView = () => {
     const queryClient = useQueryClient();
     const usuarioEnCache: UsuarioLogeado = queryClient.getQueryData<UsuarioLogeado>(["usuarioEnSesion"]) as UsuarioLogeado;
     const [grupos, setGrupos] = useState<Grupo[]>([]);
-    const [meetis, setMeetis] = useState<Meeti[]>([])
+    const [meetis, setMeetis] = useState<Meeti[]>([]);
+    const horaActual = new Intl.DateTimeFormat("es-MX").format(new Date());
 
     const {data, isLoading, isError} = useQuery({
         queryKey: ["findAllGruposByUsuarioId"],
@@ -92,17 +95,29 @@ const AdministracionView = () => {
             </div>
 
             <div className="max-w-7xl mx-auto">
-                <h2 className="font-fjalla text-4xl uppercase text-center">Tus Meetis</h2>
+                <h2 className="font-fjalla text-4xl uppercase text-center">Tus Meetis Actuales</h2>
                 {meetis.map((meeti: Meeti) => {
-                    return (
-                        <MeetiDetallesRow
-                            key={meeti.id}
-                            meeti={meeti}
-                        />
-                    );
+                    if (formatoHora(meeti.fecha) >= horaActual){
+                        return (
+                            <MeetiDetallesRow
+                                key={meeti.id}
+                                meeti={meeti}
+                            />
+                        );
+                    }
                 })}
             </div>
 
+            <div className="max-w-7xl mx-auto">
+                <h2 className="font-fjalla text-4xl uppercase text-center">Tus Meetis Pasados</h2>
+                {meetis.map((meeti: Meeti) => {
+                    if (formatoFecha(meeti.fecha) < horaActual) {
+                        return (
+                            <MeetiViejoDetallesRow meeti={meeti} key={meeti.id}/>
+                        )
+                    }
+                })}
+            </div>
         </Fragment>
     );
 }
